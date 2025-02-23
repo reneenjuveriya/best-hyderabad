@@ -5,6 +5,8 @@ import Navbar from "./components/navbar/Navbar";
 import AnimationWrapper from "./components/animatio-wrapper";
 import ClientOnly from "./components/ClientOnly";
 import Modal from "./components/modals/Modal";
+import RegisterModal from "./components/modals/RegisterModal";
+import ToasterProvider from "./providers/ToasterProvider";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -32,17 +34,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={font.className}
-      >
-      {/* <AnimationWrapper> */}
-      <ClientOnly>
-        <Modal isOpen/>
-        <Navbar/>
-        {children}
-        {/* </AnimationWrapper> */}
-      </ClientOnly>
-
+      <body className={font.className}>
+        {/* <AnimationWrapper> */}
+        <ClientOnly>
+          <ToasterProvider />
+          <RegisterModal />
+          <Navbar />
+          {children}
+          {/* </AnimationWrapper> */}
+        </ClientOnly>
       </body>
     </html>
   );
