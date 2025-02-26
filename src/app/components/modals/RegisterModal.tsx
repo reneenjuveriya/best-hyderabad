@@ -3,7 +3,7 @@
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import axios from "axios";
 import Modal from "./Modal";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
     FieldValue,
     FieldValues,
@@ -16,10 +16,14 @@ import toast from "react-hot-toast";
 import Button from "../Button";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
+import { signIn } from "next-auth/react";
+import LoginModal from "./LoginModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 
 const RegisterModal = () => {
     const RegisterModal = useRegisterModal();
+    const loginModal = useLoginModal();
     const [isLoading, setisLoading] = useState(false);
 
 
@@ -36,6 +40,11 @@ const RegisterModal = () => {
             password: ''
         }
     })
+
+    const toggle = useCallback(() => {
+        RegisterModal.onClose();
+        loginModal.onOpen();
+    },[loginModal, RegisterModal])
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setisLoading(true);
@@ -86,6 +95,9 @@ const RegisterModal = () => {
         </div>
     )
 
+   
+    
+
 
     const footerContent = (
         <div className="flex flex-col gap-4 mt-3"> 
@@ -94,13 +106,13 @@ const RegisterModal = () => {
                 outline
                 label="Continue with Google"
                 icon={FcGoogle}
-                onClick={() => {}}
+                onClick={() => signIn('google')}
             />
             <Button
                 outline
                 label="Continue with Github"
                 icon={AiFillGithub}
-                onClick={() => {}}
+                onClick={() => {signIn('github')}}
             />
             <div className="
                 text-neutral-500 text-center
@@ -113,6 +125,7 @@ const RegisterModal = () => {
                         Already have an account ? 
                     </div>
                     <div 
+                        onClick={toggle}
                         className="
                             text-neutral-800
                             cursor-pointer

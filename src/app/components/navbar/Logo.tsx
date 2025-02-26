@@ -11,7 +11,7 @@ const Logo = () => {
     //     className="hidden md-block cursor-pointer"
     //     src=""
     // />
-    <div>
+    <div onClick={() => router.push('/')}>
         Logo
     </div>
   )
