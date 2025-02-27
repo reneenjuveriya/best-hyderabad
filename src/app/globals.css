@@ -24,3 +24,10 @@ body {
 .main-content {
   scroll-behavior: smooth; /* Enables smooth scrolling */
 }
+
+.leaflet-bottom,
+.leaflet-control,
+.leaflet-pane,
+.leaflet-top {
+  z-index: 0 !important;
+}

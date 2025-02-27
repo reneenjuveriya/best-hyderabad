@@ -7,6 +7,9 @@ import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../input/CategoryInput";
 import { FieldValues, useForm } from "react-hook-form";
+import CountrySelect from "../input/CountrySelect";
+import dynamic from "next/dynamic";
+import Counter from "../input/Counter";
 
 enum STEPS {
     CATEGORY= 0,
@@ -47,6 +50,11 @@ const RentModal = () => {
     })
 
     const category = watch('category');
+    const location = watch('location');
+
+    const Map = useMemo(() => dynamic(() => import('../Map'), {
+        ssr:false
+    }),[location])
 
     const setCustomValue = (id:string, value: any) => {
         setValue(id, value, {
@@ -93,7 +101,7 @@ const RentModal = () => {
                         <div key={item.label} className="col-span-1">
                            <CategoryInput
                             onClick={(category) => setCustomValue('category',category)}
-                            selected={false}
+                            selected={category === item.label}
                             label={item.label}
                             icon={item.icon}
                             />
@@ -104,12 +112,52 @@ const RentModal = () => {
     )
 
 
+    if(step === STEPS.LOCATION) {
+        bodyContent = (
+            <div className="flex flex-col gap-8">
+                <Heading
+                    title="Where is your place located?"
+                    subtitle="Help guests find you!"    
+                />
+
+                <CountrySelect
+                    value={location}
+                    onChange={(value) => setCustomValue('location',value)}
+
+                />
+
+                <Map
+                    center={location?.latlng}    
+                />
+
+            </div>
+        )
+    }
+
+    if(step === STEPS.INFO) {
+        bodyContent = (
+            <div className="flex flex-col gap-8">
+                <Heading
+                    title="Share some basics about your place"
+                    subtitle="What amenities do you have?"    
+                />
+
+                <Counter
+                    title="Number of guests"
+                    subtitle="How many guests"
+                />
+
+            </div>
+        )
+    }
+
+
   return (
     <Modal
         isOpen={rentModal.isOpen}
         body={bodyContent}
         onClose={rentModal.onClose}
-        onSubmit={rentModal.onClose}
+        onSubmit={onNext}
         actionLabel={actionLabel}
         secondaryLabel={SecondaryActionLabel}
         secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
