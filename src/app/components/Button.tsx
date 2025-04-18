@@ -1,5 +1,6 @@
 'use client';
 import React from 'react'
+import { IconType } from 'react-icons';
 
 interface ButtonProps {
     label:string,
@@ -7,7 +8,7 @@ interface ButtonProps {
     disabled?: boolean,
     outline?: boolean,
     small?: boolean,
-    icon?: boolean,
+    icon?: IconType,
 
 }
 
