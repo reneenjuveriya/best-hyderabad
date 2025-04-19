@@ -1,14 +1,10 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import  prisma from "@/app/libs/prismadb";
-import { NextResponse } from "next/server";
-
-interface IParams {
-  listingId?: string;
-}
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
-    request: Request,
-     { params }: { params: IParams }
+  request: NextRequest,
+  context: { params: Promise<{ listingId: string }> }
 ) {
   const currentUser = await getCurrentUser();
 
@@ -16,58 +12,46 @@ export async function POST(
     return NextResponse.error();
   }
 
-  const { listingId } = params;
+  const { listingId } = await context.params;
 
-  if (!listingId || typeof listingId != "string") {
+  if (!listingId || typeof listingId !== "string") {
     throw new Error("Invalid ID");
   }
 
   const favouriteIds = [...(currentUser.favouriteIds || [])];
-
-
   favouriteIds.push(listingId);
 
   const user = await prisma.user.update({
-    where: {
-      id: currentUser.id,
-    },
-    data: {
-      favouriteIds,
-    },
+    where: { id: currentUser.id },
+    data: { favouriteIds },
   });
 
   return NextResponse.json(user);
 }
 
 export async function DELETE(
-    request: Request,
-     { params }: { params: IParams }
+  request: NextRequest,
+  context: { params: Promise<{ listingId: string }> }
 ) {
-    const currentUser = await getCurrentUser();
-  
-    if (!currentUser) {
-      return NextResponse.error();
-    }
-  
-    const { listingId } = params;
-  
-    if (!listingId || typeof listingId != "string") {
-      throw new Error("Invalid ID");
-    }
-  
-    let favouriteIds = [...(currentUser.favouriteIds || [])];
-  
-    favouriteIds = favouriteIds.filter((id) => id != listingId);
-  
+  const currentUser = await getCurrentUser();
 
-    const user = await prisma?.user.update({
-      where: {
-        id: currentUser.id,
-      },
-      data: {
-        favouriteIds,
-      },
-    });
-  
-    return NextResponse.json(user);
+  if (!currentUser) {
+    return NextResponse.error();
   }
+
+  const { listingId } = await context.params;
+
+  if (!listingId || typeof listingId !== "string") {
+    throw new Error("Invalid ID");
+  }
+
+  let favouriteIds = [...(currentUser.favouriteIds || [])];
+  favouriteIds = favouriteIds.filter((id) => id !== listingId);
+
+  const user = await prisma.user.update({
+    where: { id: currentUser.id },
+    data: { favouriteIds },
+  });
+
+  return NextResponse.json(user);
+}
