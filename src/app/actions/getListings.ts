@@ -1,40 +1,40 @@
 import prisma from '@/app/libs/prismadb';
+import { Prisma } from '@prisma/client';
 
 export interface IListingParams {
     userId?: string;
-    category?: string
+    category?: string;
 }
 
-export default async function getListings(
-    params: IListingParams
-) {
+export default async function getListings(params: IListingParams) {
     try {
         const { userId, category } = params;
 
-        let query: any = {};
+        const query: Prisma.ListingWhereInput = {};
 
-        if(userId) {
+        if (userId) {
             query.userId = userId;
         }
 
-        if(category){
+        if (category) {
             query.category = category;
         }
-        
-        const listings = await prisma?.listing.findMany({
-            where:query,
-            orderBy : {
-                createdAt: 'desc'
-            }
-        })
 
-        const safeListings = listings?.map((listing) => ({
+        const listings = await prisma.listing.findMany({
+            where: query,
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
+
+        const safeListings = listings.map((listing) => ({
             ...listing,
-            createdAt : listing.createdAt.toISOString(),
-        })
-    )
-        return safeListings
-    } catch (error){
-        throw error;
+            createdAt: listing.createdAt.toISOString(),
+        }));
+
+        return safeListings;
+    } catch (error) {
+        console.error('Error fetching listings:', error);
+        throw new Error('Failed to fetch listings.');
     }
 }

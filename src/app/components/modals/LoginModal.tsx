@@ -1,11 +1,9 @@
 'use client';
 
 import useRegisterModal from "@/app/hooks/useRegisterModal";
-import axios from "axios";
 import Modal from "./Modal";
 import { useCallback, useState } from "react";
 import {
-    FieldValue,
     FieldValues,
     SubmitHandler,
     useForm

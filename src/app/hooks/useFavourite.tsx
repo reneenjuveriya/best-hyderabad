@@ -42,7 +42,7 @@ const useFavourite = ({ listingId, currentUser }: IUseFavourite) => {
         router.refresh();
         toast.success("Success");
       } catch (error) {
-        toast.error("Something went wrong");
+        console.log(error)
       }
     },
     [currentUser, hasFavourited, listingId, logicModal, router]

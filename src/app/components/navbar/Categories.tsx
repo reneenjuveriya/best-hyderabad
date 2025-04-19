@@ -1,5 +1,5 @@
 'use client';
-import { TbBeach, TbHotelService, TbPool } from "react-icons/tb";
+import { TbBeach, TbPool } from "react-icons/tb";
 import Container from "../Container";
 import CategoryBox from "../CategoryBox";
 import { usePathname, useSearchParams } from "next/navigation";

@@ -5,7 +5,6 @@ import axios from "axios";
 import Modal from "./Modal";
 import { useCallback, useState } from "react";
 import {
-    FieldValue,
     FieldValues,
     SubmitHandler,
     useForm
@@ -17,7 +16,6 @@ import Button from "../Button";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
 import { signIn } from "next-auth/react";
-import LoginModal from "./LoginModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 
 
@@ -54,7 +52,7 @@ const RegisterModal = () => {
             RegisterModal.onClose();
         })
         .catch((error) =>{
-            toast.error('Something went wrong.')
+            toast.error(`Something went wrong.${error}`)
         })
         .finally(() => {
             setisLoading(false);
