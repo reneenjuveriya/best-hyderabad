@@ -51,7 +51,7 @@ const Search = () => {
             Add Guests
 
           </div>
-          <div className="p-2 bg-rose-500 rounded-full text-white" >
+          <div className="p-2 bg-[#00406c] rounded-full text-white" >
            <BiSearch size={18} />
 
           </div>

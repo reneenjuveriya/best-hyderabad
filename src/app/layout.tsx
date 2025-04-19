@@ -9,6 +9,8 @@ import LoginModal from "./components/modals/LoginModal";
 import getCurrentUser from "./actions/getCurrentUser";
 import RentModal from "./components/modals/RentModal";
 import SearchModal from "./components/modals/SearchModal";
+import Categories from "./components/navbar/Categories";
+import Banner from "./components/Banner";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -46,9 +48,11 @@ export default async function RootLayout({
           <LoginModal />
           <RegisterModal />
           <Navbar currentUser={currentUser}/>
+          <Banner/>
+          <Categories />
           {/* </AnimationWrapper> */}
         </ClientOnly>
-        <div className="pb-20 pt-28">
+        <div className="pb-20 pt-8">
           {children}
         </div>
       </body>
