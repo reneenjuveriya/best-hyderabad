@@ -5,11 +5,8 @@ import EmptyState from '@/app/components/EmptyState';
 import React from 'react'
 import ListingClient from './ListingClient';
 
-interface IParams {
-    listingId ?: string;
-}
-
-const ListingPage = async ({ params } : {params : IParams }) => {
+ 
+const ListingPage = async ({ params } : {params : Promise<{ listingId: string }> }) => {
     const listing = await getListingById(params);
     const currentUser= await getCurrentUser();
 

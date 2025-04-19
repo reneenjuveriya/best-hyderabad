@@ -1,10 +1,12 @@
 import prisma from '@/app/libs/prismadb';
 import { Prisma } from '@prisma/client';
 
-export interface IListingParams {
+ 
+export type IListingParams = {
     userId?: string;
     category?: string;
-}
+};
+
 
 export default async function getListings(params: IListingParams) {
     try {
