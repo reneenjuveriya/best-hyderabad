@@ -11,7 +11,7 @@ declare global {
 }
 
 interface ImageUploadProps {
-    onChange: (value: string) => vid;
+    onChange: (value: string) => void;
     value: string;
 }
 
