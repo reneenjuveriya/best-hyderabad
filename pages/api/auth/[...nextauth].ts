@@ -50,11 +50,33 @@ export const authOptions : AuthOptions = {
                     throw new Error('Invalid Credentials');
                 }
 
-                return user;
+                return {
+                    id: user.id,
+                    email: user.email,
+                    name: user.name,
+                    image: user.image,
+                    isAdmin: user.isAdmin,
+                };
             }
                 
         })
-    ],
+    ],callbacks: {
+        async jwt({ token, user }) {
+          if (user) {
+            token.id = user.id;
+            token.isAdmin = user.isAdmin;
+          }
+          return token;
+        },
+    
+        async session({ session, token }) {
+          if (session?.user && token) {
+            session.user.id = token.id as string;
+            session.user.isAdmin = token.isAdmin as boolean;
+          }
+          return session;
+        },
+      },
     pages : {
         signIn:'/',
     },

@@ -74,10 +74,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   onClick={() => router.push('/favourites')} 
                   label="My Favourites" 
                 />
-                 <MenuItem 
+                { currentUser?.isAdmin && <MenuItem 
                   onClick={() => router.push('/properties')} 
                   label="My Listings" 
-                />
+                />}
                  <MenuItem 
                   onClick={() => signOut()} 
                   label="Logout" 

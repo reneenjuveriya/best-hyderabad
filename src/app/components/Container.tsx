@@ -1,4 +1,5 @@
 'use client';
+import { SessionProvider } from "next-auth/react";
 
 interface ContainerProps {
     children: React.ReactNode;
@@ -18,7 +19,9 @@ const Container: React.FC<ContainerProps> = ({
         px-4"
     
     >
+        <SessionProvider>
         {children} 
+        </SessionProvider>
     </div>
 );
 }
