@@ -48,6 +48,7 @@ export default async function RootLayout({
           <LoginModal />
           <RegisterModal />
           <Navbar currentUser={currentUser}/>
+          <div className="h-[79px]" /> 
           <Banner/>
           <Categories />
           {/* </AnimationWrapper> */}

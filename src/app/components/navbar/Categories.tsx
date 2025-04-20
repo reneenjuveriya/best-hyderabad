@@ -1,46 +1,53 @@
 'use client';
-import { TbBeach, TbPool } from "react-icons/tb";
+import {  TbBuildingMonument, TbCoffee, TbRollercoaster } from "react-icons/tb";
 import Container from "../Container";
 import CategoryBox from "../CategoryBox";
 import { usePathname, useSearchParams } from "next/navigation";
-import { MdTableRestaurant } from "react-icons/md";
-import { GiForestCamp } from "react-icons/gi";
+import { MdHiking, MdMovie, MdTableRestaurant } from "react-icons/md";
+import { GiShoppingBag  } from "react-icons/gi";
+import {FaHotel} from 'react-icons/fa'
 
 
 export const categories = [
+    
     {
-        label:'Beach',
-        icon: TbBeach,
+        label:'Hotel',
+        icon: FaHotel,
         description:'Beach'
     },
     {
-        label:'Hotel',
-        icon: TbPool,
-        description:'Beach'
+        label:'Restaurants',
+        icon: MdTableRestaurant,
+        description:'Restaurant'
+    },
+    {
+        label:'Cafes & Bakeries',
+        icon: TbCoffee,
+        description:'Cafes & Bakeries'
     },
     {
         label:'Malls',
-        icon: MdTableRestaurant,
+        icon: GiShoppingBag,
+        description:'Malls'
+    },
+    {
+        label:'Entertainment',
+        icon: MdMovie,
+        description:'Entertainment'
+    },
+    {
+        label:'Tourist Attractions',
+        icon: TbBuildingMonument,
         description:'Beach'
     },
     {
-        label:'Parks',
-        icon: TbBeach,
+        label:'Amusement & Water Parks',
+        icon: TbRollercoaster,
         description:'Beach'
     },
     {
-        label:'Cafes',
-        icon: MdTableRestaurant,
-        description:'Beach'
-    },
-    {
-        label:'Restaurant',
-        icon: MdTableRestaurant,
-        description:'Beach'
-    },
-    {
-        label:'Camping',
-        icon: GiForestCamp,
+        label:'Weekend Getaways',
+        icon: MdHiking,
         description:'Beach'
     }
 ]
@@ -58,9 +65,12 @@ const Categories = () => {
 
   return (
    <Container>
-        <div
+        <div style={{
+    scrollbarWidth: 'none',
+    msOverflowStyle: 'none',
+  }}
             className="
-            pt-8 flex flex-row items-center justify-between overflow-x-auto border-b-2 border-grey-10"
+            pt-8 flex flex-row items-center justify-between scrollbar-none border-b-2 border-grey-10 overflow-x-auto whitespace-nowrap  "
         >
                 {categories.map((item) => (
                     <CategoryBox
