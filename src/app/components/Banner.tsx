@@ -1,14 +1,22 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import Container from "./Container";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const Banner = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const pathname = usePathname();
+
+  const isMainPage = pathname === "/";
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
   }, []);
+
+  if (!isMainPage) {
+    return null;
+  }
 
   return (
     <Container>

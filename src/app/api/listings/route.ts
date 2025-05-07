@@ -20,6 +20,7 @@ export async function POST(request: Request) {
     guestCount,
     location,
     price,
+    workingHours
   } = body;
 
   const listing = await prisma.listing.create({
@@ -33,7 +34,8 @@ export async function POST(request: Request) {
       guestCount,
       LocationValue : location.value,
       price:parseInt(price,10),
-      userId: currentUser.id
+      userId: currentUser.id,
+      workingHours,
     },
   });
 

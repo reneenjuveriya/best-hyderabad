@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../input/CategoryInput";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import CountrySelect from "../input/CountrySelect";
 import dynamic from "next/dynamic";
 import Counter from "../input/Counter";
@@ -16,6 +16,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { NextResponse } from "next/server";
+import OpenHoursForm from "../openHoursForm";
 
 enum STEPS {
     CATEGORY= 0,
@@ -23,7 +24,8 @@ enum STEPS {
     INFO=2,
     IMAGES=3,
     DESCRIPTION=4,
-    PRICE=5
+    PRICE=5,
+    WORKING_HOURS= 6
 }
 
 const RentModal = () => {
@@ -31,6 +33,23 @@ const RentModal = () => {
     const router=useRouter();
     const [step, setStep]= useState(STEPS.CATEGORY);
     const [isLoading, setIsLoading]= useState(false);
+     
+   
+
+    const methods = useForm<FieldValues>({
+        defaultValues: {
+            category: '',
+            location: null,
+            guestCount:1,
+            roomCount:1,
+            bathroomCount:1,
+            imageSrc:'',
+            price:1,
+            title:'',
+            workingHours: {}
+
+        }
+    })
 
     const{
         register,
@@ -41,20 +60,7 @@ const RentModal = () => {
             errors
         },
         reset
-    } = useForm<FieldValues>({
-        defaultValues: {
-            category: '',
-            location: null,
-            guestCount:1,
-            roomCount:1,
-            bathroomCount:1,
-            imageSrc:'',
-            price:1,
-            title:'',
-            description:''
-
-        }
-    })
+    } = methods;
 
     const category = watch('category');
     const location = watch('location');
@@ -85,7 +91,7 @@ const RentModal = () => {
     }
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        if(step != STEPS.PRICE){
+        if(step != STEPS.WORKING_HOURS){
             return onNext();
         }
 
@@ -111,7 +117,7 @@ const RentModal = () => {
     }
 
     const actionLabel = useMemo(() => {
-        if(step === STEPS.PRICE){
+        if(step === STEPS.WORKING_HOURS){
             return 'Create';
         }
 
@@ -253,6 +259,16 @@ const RentModal = () => {
             </div>
         )
     }
+
+    if(step === STEPS.WORKING_HOURS) {
+        bodyContent = (
+            <FormProvider {...methods}>
+          <div className="flex flex-col gap-8">
+            <OpenHoursForm />
+          </div>
+          </FormProvider>
+        );
+      }
 
     if(step === STEPS.PRICE) {
         bodyContent = (
